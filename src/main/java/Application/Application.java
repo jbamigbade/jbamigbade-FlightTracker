@@ -30,27 +30,31 @@ public class Application {
      * This is not a normal way to set up your tables, in real projects you should set up your database
      * schema in a SQL editor such as DBeaver or DataGrip. Do not change anything in this method.
      */
-    public static void databaseSetup(){
+    public static void databaseSetup() {
         try {
             Connection conn = ConnectionUtil.getConnection();
-            PreparedStatement ps1 = conn.prepareStatement("drop table if exists flight");
+            PreparedStatement ps1 = conn.prepareStatement("DROP TABLE IF EXISTS flight");
             ps1.executeUpdate();
-            PreparedStatement ps2 = conn.prepareStatement("create table flight(" +
-                    "flight_id int primary key auto_increment, " +
-                    "departure_city varchar(255), " +
-                    "arrival_city varchar(255));");
+            PreparedStatement ps2 = conn.prepareStatement(
+                "CREATE TABLE flight (" +
+                "flight_id INT PRIMARY KEY AUTO_INCREMENT, " +
+                "departure_city VARCHAR(255), " +
+                "arrival_city VARCHAR(255))"
+            );
             ps2.executeUpdate();
-            PreparedStatement ps3 = conn.prepareStatement("insert into flight " +
-                    "(departure_city, arrival_city) values " +
-                    "('tampa', 'dallas')," +
-                    "('tampa', 'reston')," +
-                    "('reston', 'morgantown')," +
-                    "('morgantown', 'dallas')," +
-                    "('tampa', 'dallas')," +
-                    "('dallas', 'tampa');");
+            PreparedStatement ps3 = conn.prepareStatement(
+                "INSERT INTO flight (departure_city, arrival_city) VALUES " +
+                "('tampa', 'dallas'), " +
+                "('tampa', 'reston'), " +
+                "('reston', 'morgantown'), " +
+                "('morgantown', 'dallas'), " +
+                "('tampa', 'dallas'), " +
+                "('dallas', 'tampa')"
+            );
             ps3.executeUpdate();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
 }

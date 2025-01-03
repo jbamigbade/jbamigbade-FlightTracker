@@ -12,9 +12,9 @@ import java.sql.SQLException;
 public class ConnectionUtil {
     
     //url will represent our connection string. Since this is an in-memory db, we will represent a file location to store the data
-    private static String url = "jdbc:h2:./h2/db";
+    private static String url = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
     private static String username = "sa";
-    private static String password = "sa";
+    private static String password = "";
 
     private static Connection connection = null;
 
@@ -24,14 +24,17 @@ public class ConnectionUtil {
     public static Connection getConnection(){
         if(connection == null){
             try {
+                // ✅ Validate Driver Loading
+                Class.forName("org.h2.Driver"); // Ensure the H2 driver is loaded
+                
+                // ✅ Establish the database connection
                 connection = DriverManager.getConnection(url, username, password);
-
+            } catch (ClassNotFoundException e) {
+                System.err.println("H2 Driver not found: " + e.getMessage());
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.err.println("Failed to connect to the database: " + e.getMessage());
             }
         }
-
         return connection;
     }
-
 }
